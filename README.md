@@ -12,13 +12,12 @@
 
 [![LoopVectorization Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/LoopVectorization)](https://pkgs.genieframework.com?packages=LoopVectorization)
 
-## Maintanence
+
+## Maintenance
 The plan is for `LoopVectorization.jl` to be maintained through the [SciML Small Grants](https://sciml.ai/small_grants/#update_loopvectorization_to_support_changes_in_julia_v112_200) program.
 If you would like to see an issue fixed, or support extended to another Julia patch release, please consider:
 1. Donating to the SciML Small Grants program, with a note on the purpose of your donation.
 2. Create (a) PR(s) fixing the issue yourself. Apply for the small grant program first to claim the grant. Note that the small grants program is not a mentorship program; you would be expected to complete the tasks without guidance from maintainers, past or present.
-
-Note that `LoopVectorization.jl` currently has deprecation warnings on Julia's 1.12 branch, causing test failures whenever `dep-warn=error`.
 
 ## Installation
 
@@ -26,7 +25,7 @@ Note that `LoopVectorization.jl` currently has deprecation warnings on Julia's 1
 using Pkg
 Pkg.add("LoopVectorization")
 ```
-LoopVectorization is supported on Julia 1.1 and later. It is tested on Julia 1.5 and nightly.
+LoopVectorization is supported on Julia 1.1 and later. It is tested on Julia LTS, latest, pre-release and nightly.
 
 ## Warning
 
@@ -59,7 +58,7 @@ For simple loops like a dot product, LoopVectorization.jl's most important optim
 <details>
  <summaryClick me! ></summary>
 <p>
- 
+
  ```julia
 julia> using LoopVectorization, BenchmarkTools
 
@@ -315,7 +314,7 @@ f = KwargCall(round, (digits = 3,));
 <p>
 
 The key to the `@turbo` macro's performance gains is leveraging knowledge of exactly how data like `Float64`s and `Int`s are handled by a CPU. As such, it is not strightforward to generalize the `@turbo` macro to work on arrays containing structs such as `Matrix{Complex{Float64}}`. Instead, it is currently recommended that users wishing to apply `@turbo` to arrays of structs use packages such as [StructArrays.jl](https://github.com/JuliaArrays/StructArrays.jl) which transform an array where each element is a struct into a struct where each element is an array. Using StructArrays.jl, we can write a matrix multiply (gemm) kernel that works on matrices of `Complex{Float64}`s and `Complex{Int}`s:
-```julia 
+```julia
 using LoopVectorization, LinearAlgebra, StructArrays, BenchmarkTools, Test
 
 BLAS.set_num_threads(1); @show BLAS.vendor()
@@ -374,7 +373,7 @@ julia> @test C1 ≈ C2
 Test Passed
 ```
 
-Similar approaches can be taken to make kernels working with a variety of numeric struct types such as [dual numbers](https://github.com/JuliaDiff/DualNumbers.jl), [DoubleFloats](https://github.com/JuliaMath/DoubleFloats.jl), etc. 
+Similar approaches can be taken to make kernels working with a variety of numeric struct types such as [dual numbers](https://github.com/JuliaDiff/DualNumbers.jl), [DoubleFloats](https://github.com/JuliaMath/DoubleFloats.jl), etc.
 
 </p>
 </details>
@@ -397,5 +396,6 @@ Similar approaches can be taken to make kernels working with a variety of numeri
 * [DynamicExpressions.jl](https://github.com/SymbolicML/SymbolicRegression.jl)
 * [PySR](https://github.com/MilesCranmer/PySR) and [SymbolicRegression.jl](https://github.com/MilesCranmer/SymbolicRegression.jl)
 * [Lux.jl](https://github.com/LuxDL/Lux.jl) and [LuxLib.jl](https://github.com/LuxDL/LuxLib.jl)
+* [JetReconstruction.jl](https://github.com/JuliaHEP/JetReconstruction.jl)
 
 If you're using LoopVectorization, please feel free to file a PR adding yours to the list!
